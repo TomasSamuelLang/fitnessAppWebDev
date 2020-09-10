@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+  fitnessapp:
+    image: fitnessapp
+    build: .
+    environment:
+      NODE_ENV: production
+    expose:
+      - 3000
+    ports:
+      - 3000:3000
+  mongo:
+    image: mongo
+    restart: unless-stopped
+    ports:
+      - 27017:27017
+    expose:
+      - 27017
+    volumes:
+      - ./mongo-data:/data/db
+  mongo-express:
+    image: mongo-express
+    restart: unless-stopped
+    ports:
+      - 1234:8081
+    expose:
+      - 1234
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: secret
+    volumes:
+      - ./mongo-data:/data/db
