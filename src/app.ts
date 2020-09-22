@@ -11,9 +11,6 @@ var registerRouter = require('./routes/register');
 
 var app = express();
 
-// view engine setup
-app.set('views', '/app/views');
-
 app.engine('ejs', require('ejs').renderFile);
 app.set('view engine', 'ejs');
 
