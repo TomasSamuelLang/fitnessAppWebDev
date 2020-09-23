@@ -1,6 +1,6 @@
 <%- include('header'); %>
 <!-- This is an example of a css file that is only needed on one this page -->
-<link rel="stylesheet" href="css/login.css">
+<!-- <link rel="stylesheet" href="css/login.css"> -->
 <div class="row d-flex justify-content-center">
     <form class="form-signin">
         <h1 class="h3 mb-3 font-weight-normal">Please log into your account</h1>
@@ -8,5 +8,10 @@
         <input type="password" id="inputPassword" class="form-control" placeholder="Password" required="">
         <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
     </form>
+</div>
+<div class="container">
+    <div class="row">
+        <p>Need an account? <a href="/register">Click here to register!</a></p>
+    </div>
 </div>
 <%- include('footer'); %>

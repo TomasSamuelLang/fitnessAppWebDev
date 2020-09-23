@@ -1,13 +1,13 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import express from 'express'
+import path from 'path'
+const createError = require('http-errors');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var loginRouter = require('./routes/login');
-var registerRouter = require('./routes/register');
+import indexRouter from './routes/index'
+import usersRouter from './routes/users';
+import loginRouter from './routes/login';
+import registerRouter from './routes/register';
 
 var app = express();
 
@@ -26,12 +26,12 @@ app.use('/login',loginRouter);
 app.use('/register',registerRouter)
 
 // catch 404 and forward to error handler
-app.use(function(req: any, res: any, next: any) {
+app.use((req: any, res: any, next: any) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err: any, req: any, res: any, next: any) {
+app.use((err: any, req: any, res: any, next: any) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
