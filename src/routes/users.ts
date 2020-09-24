@@ -1,15 +1,15 @@
 import User from '../model/User'
+import express from 'express';
 
-var express = require('express');
-var router = express.Router();
+const router = express.Router();
 
 /* GET users listing. */
-router.get('/', (req: any, res: any, next: any) => {
+router.get('/', (req: express.Request, res: express.Response, next: express.NextFunction) => {
   res.send('respond with a resource');
 });
 
 /* GET users listing. */
-router.get('/test', async (req: any, res: any, next: any) => {
+router.get('/test', async (req: express.Request, res: express.Response, next: express.NextFunction) => {
   let count = await User.countDocuments({ userName: "name" });
       if (count === 0) {
         let user = new User({ userName: "name", password: "pass" });

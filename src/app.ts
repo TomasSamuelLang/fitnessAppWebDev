@@ -1,19 +1,19 @@
 import express from 'express'
 import path from 'path'
-const createError = require('http-errors');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-
+import createError from 'http-errors';
+import cookieParser from 'cookie-parser';
+import logger from 'morgan';
 import indexRouter from './routes/index'
 import usersRouter from './routes/users';
 import loginRouter from './routes/login';
 import registerRouter from './routes/register';
-
+import ejs from 'ejs';
 import mongoose from 'mongoose'
+import { create } from 'domain';
 
 var app = express();
 
-app.engine('ejs', require('ejs').renderFile);
+app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
@@ -38,12 +38,12 @@ mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
   });
 
 // catch 404 and forward to error handler
-app.use((req: any, res: any, next: any) => {
+app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
   next(createError(404));
 });
 
 // error handler
-app.use((err: any, req: any, res: any, next: any) => {
+app.use((err: createError.HttpError, req: express.Request, res: express.Response, next: express.NextFunction) => {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -54,4 +54,4 @@ app.use((err: any, req: any, res: any, next: any) => {
 });
 
 
-module.exports = app;
+export default app;
