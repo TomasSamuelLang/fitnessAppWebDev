@@ -4,15 +4,16 @@
  * Module dependencies.
  */
 
-var app = require('../app');
-const debug = require('debug')('fitnessapp:server');
-const http = require('http');
+import app from '../app';
+import http from 'http';
+import Debug from 'debug';
+const debug = Debug('fitnessapp:server');
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
-const normalizePort = (val: any) => {
+const normalizePort = (val: string) => {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -45,7 +46,7 @@ const server = http.createServer(app);
  * Event listener for HTTP server "error" event.
  */
 
-const onError = (error: any) => {
+const onError = (error: NodeJS.ErrnoException) => {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -73,11 +74,13 @@ const onError = (error: any) => {
  * Event listener for HTTP server "listening" event.
  */
 
-const onListening= () => {
+const onListening = () => {
   const addr = server.address();
-  const bind = typeof addr === 'string'
+  const bind = addr != null
+  ? (typeof addr === 'string'
     ? 'pipe ' + addr
-    : 'port ' + addr.port;
+    : 'port ' + addr.port)
+  : 'null addr';
   debug('Listening on ' + bind);
 }
 
