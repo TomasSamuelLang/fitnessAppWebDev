@@ -1,5 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express' 
 import passport from 'passport'
+import app from '../app';
 const router = Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
@@ -14,15 +15,12 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       if (!user) { return res.redirect('/login'); }
       req.logIn(user, (err) => {
         if (err) { return res.redirect('/login'); }
-        console.log(user);
+        app.locals.id = user._id;
+        app.locals.email = user.email;
+        console.log('ID: ' + app.locals.id);
         return res.redirect('/');
       });
     })(req, res, next);
 });
-
-router.get('/logout', (req : Request, res: Response, next: NextFunction) => {
-  req.logout();
-  res.redirect('/');
-}); 
 
 export default router;
