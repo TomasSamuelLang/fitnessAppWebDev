@@ -11,10 +11,10 @@ import ejs from 'ejs';
 import mongoose from 'mongoose'
 import { create } from 'domain';
 import passport from 'passport';
+import './passport-config';
 
 var app = express();
 
-require('./passport-config');
 app.use(passport.initialize());
 app.use(passport.session());
 

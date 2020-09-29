@@ -1,9 +1,9 @@
-import express, { Router } from 'express' 
+import { Router, Request, Response, NextFunction } from 'express' 
 const router = Router();
 
 /* GET home page. */
-router.get('/', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  res.render('index');
+router.get('/', (req: Request, res: Response, next: NextFunction) => {
+  res.render('index', {title: "Home"});
 });
 
 export default router;

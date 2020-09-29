@@ -14,12 +14,15 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       if (!user) { return res.redirect('/login'); }
       req.logIn(user, (err) => {
         if (err) { return res.redirect('/login'); }
+        console.log(user);
         return res.redirect('/');
       });
     })(req, res, next);
 });
 
-// router.post('/login', passport.authenticate('local', { failureRedirect: '/login' }), (req, res) => {
-// res.redirect('/'); });
+router.get('/logout', (req : Request, res: Response, next: NextFunction) => {
+  req.logout();
+  res.redirect('/');
+}); 
 
 export default router;
