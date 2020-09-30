@@ -38,7 +38,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <% if (typeof(isUserLogined) != "undefined" && isUserLogined) { %>
+                    <% if (id != '') { %>
                     <li class="nav-item">
                         <%- include('header/nav-link', {currentPageTitle: title, link: "workouts", title: "Workouts"}) %>
                     </li>
@@ -46,7 +46,7 @@
                         <%- include('header/nav-link', {currentPageTitle: title, link: "create-workout", title: "Create Workout"}) %>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link disabled" href="logoff">Log off</a>
+                        <a class="nav-link" href="/logout">Log out</a>
                     </li>
                     <% } else { %>
                     <li class="nav-item">

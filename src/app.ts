@@ -6,15 +6,24 @@ import logger from 'morgan';
 import indexRouter from './routes/index'
 import usersRouter from './routes/users';
 import loginRouter from './routes/login';
+import logoutRouter from './routes/logout';
 import registerRouter from './routes/register';
 import ejs from 'ejs';
 import mongoose from 'mongoose'
 import { create } from 'domain';
+import passport from 'passport';
+import './passport-config';
 
 var app = express();
 
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.engine('ejs', ejs.renderFile);
 app.set('view engine', 'ejs');
+
+app.locals.email = '';
+app.locals.id = '';
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -26,6 +35,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter)
+app.use('/logout', logoutRouter);
 
 //setup mongo connection and mongoose
 const uri = "mongodb+srv://administrator:secret2.@cluster0.9buds.gcp.mongodb.net/fitnessApp?retryWrites=true&w=majority";

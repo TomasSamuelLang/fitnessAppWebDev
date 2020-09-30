@@ -74,7 +74,7 @@ const onError = (error: NodeJS.ErrnoException) => {
  * Event listener for HTTP server "listening" event.
  */
 
-const onListening= () => {
+const onListening = () => {
   const addr = server.address();
   const bind = addr != null
   ? (typeof addr === 'string'
