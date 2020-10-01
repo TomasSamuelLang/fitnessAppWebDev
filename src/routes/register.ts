@@ -21,7 +21,6 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       res.render('register', {title: "Register"});
     }
     else{
-      console.log('this is new user');
       try{
         await user.save();
         return res.redirect('/login');

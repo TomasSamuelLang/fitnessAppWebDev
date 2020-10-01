@@ -8,8 +8,6 @@ router.get('/', (req: Request, res: Response, next: NextFunction) => {
 });
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body.email);
-    console.log(req.body.password);
     passport.authenticate('local', (err, user, info) => {
       if (err) { return res.redirect('/login'); }
       if (!user) { return res.redirect('/login'); }
