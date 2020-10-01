@@ -1,0 +1,43 @@
+<%- include('header'); %>
+<section class="jumbotron text-center">
+    <div class="container">
+        <h3>You are logged in as: <%- email -%></h3>
+        <p class="lead text-muted">Search for your workouts bellow</p>
+        <div class=" d-flex justify-content-center">
+            <form class="form-inline mt-2 mt-md-0" id="searchWorkouts">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search" name="search"
+                    aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <h1>Your workouts</h1>
+    <% workouts.forEach(workout => { %>
+    <div class="col-12">
+        <div
+            class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div class="col p-4 d-flex flex-column position-static">
+                <strong class="d-inline-block mb-2 text-primary">Containing <%= workout.exercises.length %>
+                    exercise(s)</strong>
+                <h3 class="mb-0"><%= workout.name %></h3>
+                <div class="mb-1 text-muted"><%= workout.date %></div>
+                <p class="card-text mb-auto"><%= workout.description %></p>
+                <a href="/workout/<%= workout._id %>" class="stretched-link">Click for details</a>
+            </div>
+            <div class="col-auto d-none d-lg-block">
+                <img src="https://stlawyers.ca/wp-content/uploads/2020/03/steve-nash-fitness-world-e1585188738182.jpg"
+                    alt="Fitness" width="320px" height="250px" style="padding-bottom: 20px;">
+            </div>
+        </div>
+    </div>
+    <% }); %>
+</div>
+<script>
+    const searchWorkoutsForm = document.querySelector("#searchWorkouts");
+    searchWorkoutsForm.addEventListener("submit", event => {
+        event.preventDefault();
+    })
+</script>
+<%- include('footer'); %>

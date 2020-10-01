@@ -1,0 +1,230 @@
+<%- include('header'); %>
+<div class="row">
+    <div class="col-md-12" style="padding-top: 40px;">
+        <form method="POST" id="createWorkoutForm">
+            <h1 class="h3 mb-3 font-weight-normal">Create a new workout</h1>
+            <div class="form-group col-md-6">
+                <label for="workoutName">Workout Name</label>
+                <input type="text" id="workoutName" name="workoutName" class="form-control"
+                    placeholder="Enter a workout name" required autofocus />
+            </div>
+            <div class="form-group col-md-6">
+                <label for="workoutDescription">Workout Description</label>
+                <textarea id="workoutDescription" name="workoutDescription" class="form-control"
+                    placeholder="Enter a workout description" required rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <h3>Choose exercises</h3>
+                <div id="accordion">
+                    <div class="card form-inline mt-2 mt-md-0 card-header">
+                        <p class="lead text-muted">Search for exercises bellow</p>
+                        <div class=" d-flex justify-content-center">
+                            <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search"
+                                name="search" aria-label="Search">
+                        </div>
+                    </div>
+                    <% exercises.forEach(exercise => { %>
+                    <div class="card row exercise" style="flex-flow: row;align-items: center;">
+                        <input type="checkbox" class="col-md-1" id="exercise<%= exercise._id %>" />
+                        <button type="button" class="btn btn-link col-md-5" data-toggle="collapse"
+                            data-target="#expand<%= exercise._id %>" aria-expanded="true"
+                            aria-controls="expand<%= exercise._id %>">
+                            <h5 class="mb-0">
+                                <%= exercise.name %>
+                            </h5>
+                        </button>
+                        <div class="form-group col-md-3">
+                            <label for="exerciseSet<%= exercise._id %>">Set</label>
+                            <input class="form-control exerciseSet" type="number" min="0" value="0"
+                                id="exerciseSet<%= exercise._id %>" aria-label="Set" placeholder="Set">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <input type="number" class="form-control exerciseRepsOrTime" min="0" value="0"
+                                aria-label="Reps" placeholder="Reps">
+                            <select class="form-control repsOrTime">
+                                <option value="1">Reps</option>
+                                <option value="2">Seconds</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="expand<%= exercise._id %>" class="collapse" aria-labelledby="heading<%= exercise._id %>"
+                        data-parent="#accordion">
+                        <div class="card-body">
+                            <%= exercise.description %>
+                        </div>
+                    </div>
+                    <% }); %>
+                    <div class="card">
+                        <button type="button" id="toggleCreateExercise" class="btn btn-link" data-toggle="collapse"
+                            data-target="#expandCreateExercise" aria-expanded="true"
+                            aria-controls="expandCreateExercise">
+                            <div class="card-header" id="createExercise">
+                                <h5 class="mb-0">
+                                    Create an exercise
+                                </h5>
+                        </button>
+                    </div>
+                    <div id="expandCreateExercise" class="collapse" aria-labelledby="createExercise"
+                        data-parent="#accordion">
+                        <div class="card-body col-md-6" style="margin-left: auto; margin-right: auto;">
+                            <h1 class="h3 mb-3 font-weight-normal">Create a new exercise</h1>
+                            <div class="form-group">
+                                <label for="exerciseName">Exercise Name</label>
+                                <input type="text" id="exerciseName" name="exerciseName" class="form-control"
+                                    placeholder="Enter an exercise name" />
+                            </div>
+                            <div class="form-group">
+                                <label for="exerciseDescription">Exercise Description</label>
+                                <textarea id="exerciseDescription" name="exerciseDescription" class="form-control"
+                                    placeholder="Enter an exercise description" rows="5"></textarea>
+                            </div>
+                            <button class="btn btn-lg btn-primary btn-block" id="createExerciseButton"
+                                type="button">Create
+                                exercise</button>
+                        </div>
+                        <div class="loading hide">
+                            <div class="spinner-border" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Create workout</button>
+    </form>
+</div>
+</div>
+<script>
+    const loadingDiv = document.querySelector(".loading");
+    document.getElementById("createExerciseButton").addEventListener("click", event => {
+        const exerciseNameInput = document.getElementById("exerciseName");
+        const exerciseName = exerciseNameInput?.value ?? '';
+        const exerciseDescriptionInput = document.getElementById("exerciseDescription");
+        const exerciseDescription = exerciseDescriptionInput?.value ?? '';
+        if (exerciseName == '' || exerciseDescription == '') {
+            alert("Please provide an exercise name and description");
+        } else {
+            jQuery.ajax({
+                url: '/create-exercise',
+                type: 'POST',
+                data: {
+                    name: exerciseName,
+                    description: exerciseDescription
+                },
+                beforeSend: () => {
+                    if (loadingDiv != null) {
+                        loadingDiv.classList.remove("hide");
+                    }
+                },
+                success: response => {
+                    const exercise = response.exercise;
+                    const exerciseId = exercise.id;
+                    const newExercise = `<div class="card row exercise" style="flex-flow: row;align-items: center;">
+                        <input type="checkbox" class="col-md-1" id="exercise${exerciseId}" />
+                        <button type="button" class="btn btn-link col-md-5" data-toggle="collapse"
+                            data-target="#expand${exerciseId}" aria-expanded="true"
+                            aria-controls="expand${exerciseId}">
+                                <h5 class="mb-0">
+                                    ${exercise.name}
+                                </h5>
+                        </button>
+                        <div class="form-group col-md-3">
+                            <label for="exerciseSet${exerciseId}">Set</label>
+                            <input class="form-control exerciseSet" type="number" min="0" value="0"
+                                id="exerciseSet${exerciseId}" aria-label="Set" placeholder="Set">
+                        </div>
+                        <div class="form-group col-md-3">
+                            <select class="form-control repsOrTime">
+                                <option value="1">Reps</option>
+                                <option value="2">Time</option>
+                            </select>
+                            <input type="number" class="form-control exerciseRepsOrTime" min="0" value="0"
+                             aria-label="Reps" placeholder="Reps">
+                            <span class="hide" style="display: inline;"> seconds</span>
+                        </div>
+                    </div>
+                    <div id="expand${exerciseId}" class="collapse" aria-labelledby="heading${exerciseId}"
+                        data-parent="#accordion">
+                        <div class="card-body">
+                            ${exercise.description}
+                        </div>
+                    </div>`;
+                    const exercises = document.querySelectorAll('.exercise');
+                    const lastExercise = exercises[exercises.length - 1];
+                    lastExercise?.insertAdjacentHTML('afterend', newExercise);
+                    exerciseNameInput.value = "";
+                    exerciseDescriptionInput.value = "";
+                    document.getElementById("toggleCreateExercise")?.click();
+                },
+                error: error => {
+                    console.error(error);
+                    alert("There was a server error! Please try again!");
+                },
+                complete: () => {
+                    if (loadingDiv != null) {
+                        loadingDiv.classList.add("hide");
+                    }
+                }
+            })
+        }
+    })
+
+    const createWorkoutForm = document.getElementById("createWorkoutForm");
+    createWorkoutForm?.addEventListener("submit", event => {
+        event.preventDefault();
+        if (createWorkoutForm.checkValidity()) {
+            let checkedExercises = document.querySelectorAll('.exercise input[type="checkbox"]:checked');
+            if (checkedExercises.length > 0) {
+                let exercises = [];
+                let hasErrors = false;
+                checkedExercises.forEach(checkedExercise => {
+                    const set = checkedExercise.parentElement.querySelector(".exerciseSet")?.value ?? 0;
+                    const repsOrTimeInput = checkedExercise.parentElement.querySelector(".exerciseRepsOrTime");
+                    const repsOrTime = repsOrTimeInput?.value ?? 0 +
+                        ((repsOrTimeInput?.parentElement.querySelector(".repsOrTime")?.value ?? 1) == 2 ? " seconds" : "");
+                    if (set == 0 || parseInt(repsOrTime) == 0) {
+                        hasErrors = true;
+                    }
+                    exercises.push({
+                        id: checkedExercise.id.substr("exercise".length),
+                        set: set,
+                        repsOrTime: repsOrTime
+                    });
+                });
+                if (!hasErrors) {
+                    jQuery.ajax({
+                        url: '/create-workout',
+                        type: 'POST',
+                        data: {
+                            name: document.getElementById("workoutName")?.value ?? "error",
+                            description: document.getElementById("workoutDescription")?.value ?? "error",
+                            exercises: exercises
+                        },
+                        beforeSend: () => {
+                            if (loadingDiv != null) {
+                                loadingDiv.classList.remove("hide");
+                            }
+                        },
+                        success: response => {
+                            alert("Workout added successfully!");
+                            window.location.href = "/workouts";
+                        },
+                        error: error => {
+                            console.error(error);
+                            if (loadingDiv != null) {
+                                loadingDiv.classList.add("hide");
+                            }
+                            alert("There was a server error! Please try again!");
+                        },
+                    })
+                } else {
+                    alert("For all selected exercises, the set and reps/time values should be bigger than 0!");
+                }
+            } else {
+                alert("Please select at least one exercise!");
+            }
+        }
+    })
+</script>
+<%- include('footer'); %>

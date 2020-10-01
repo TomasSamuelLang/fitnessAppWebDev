@@ -1,64 +1,35 @@
 <%- include('header'); %>
-<% if(id === '') { %>
-    <section class="jumbotron text-center">
-        <div class="container">
-          <h1>Fitness app</h1>
-          <p class="lead text-muted">Create workout programs with various exercises. Log into your account in order to manage workouts or register for a new account</p>
-          <p>
-            <a href="/login" class="btn btn-primary my-2">Log in</a>
-            <a href="/register" class="btn btn-secondary my-2">Register</a>
-          </p>
-        </div>
-    </section>
-    <div class="row">
-        <div class="col-6">
-          <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-              <img src="https://prenocuj.sk/wp-content/uploads/2019/10/cvičiť-doma-1.jpg" width="420px" height="350px" alt="Fitness girl">
-              <div class="my-3 py-3">
-                <h2 class="display-5">Create your own workouts</h2>
-                <p class="lead">Create new workout plans manage them... And do some other stuff</p>
-              </div>
-            </div>
-        </div>
-        <div class="col-6">
-          <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
-              <div class="my-3 py-3">
-                <h2 class="display-5">Create new exercises</h2>
-                <p class="lead">Add exercises to your workouts manage your workouts and many more</p>
-              </div>
-                  <img src="https://stlawyers.ca/wp-content/uploads/2020/03/steve-nash-fitness-world-e1585188738182.jpg" alt="Fitness" width="420px" height="350px" style="padding-bottom: 20px;">
-            </div>
-        </div>
+<section class="jumbotron text-center">
+  <div class="container">
+    <h1>Fitness app</h1>
+    <p class="lead text-muted">Create workout programs with various exercises. Log into your account in order to manage
+      workouts or register for a new account</p>
+    <p>
+      <a href="/login" class="btn btn-primary my-2">Log in</a>
+      <a href="/register" class="btn btn-secondary my-2">Register</a>
+    </p>
+  </div>
+</section>
+<div class="row">
+  <div class="col-6">
+    <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <img src="https://prenocuj.sk/wp-content/uploads/2019/10/cvičiť-doma-1.jpg" width="420px" height="350px"
+        alt="Fitness girl">
+      <div class="my-3 py-3">
+        <h2 class="display-5">Create your own workouts</h2>
+        <p class="lead">Create new workout plans manage them... And do some other stuff</p>
+      </div>
     </div>
-<% } else { %>
-    <section class="jumbotron text-center">
-        <div class="container">
-          <h3>You are logged in as: <%- email -%></h3>
-          <p class="lead text-muted">Search for your workouts bellow</p>
-          <div class=" d-flex justify-content-center">
-            <form class="form-inline mt-2 mt-md-0">
-                <input class="form-control mr-sm-2" type="text" placeholder="Search" id="search" name="search" aria-label="Search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-            </form>
-          </div>
-        </div>
-    </section>
-    <div class="container">
-        <!-- here we will generate workout previews of particular user -->
-        <div class="col-12">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-              <div class="col p-4 d-flex flex-column position-static">
-                <strong class="d-inline-block mb-2 text-primary">Some data</strong>
-                <h3 class="mb-0">Some workout</h3>
-                <div class="mb-1 text-muted">Date</div>
-                <p class="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
-                <a href="#" class="stretched-link">Click for details</a>
-              </div>
-              <div class="col-auto d-none d-lg-block">
-                <img src="https://stlawyers.ca/wp-content/uploads/2020/03/steve-nash-fitness-world-e1585188738182.jpg" alt="Fitness" width="320px" height="250px" style="padding-bottom: 20px;">
-              </div>
-            </div>
-          </div>
+  </div>
+  <div class="col-6">
+    <div class="bg-dark mr-md-3 pt-3 px-3 pt-md-5 px-md-5 text-center text-white overflow-hidden">
+      <div class="my-3 py-3">
+        <h2 class="display-5">Create new exercises</h2>
+        <p class="lead">Add exercises to your workouts manage your workouts and many more</p>
+      </div>
+      <img src="https://stlawyers.ca/wp-content/uploads/2020/03/steve-nash-fitness-world-e1585188738182.jpg"
+        alt="Fitness" width="420px" height="350px" style="padding-bottom: 20px;">
     </div>
-<% } %>
+  </div>
+</div>
 <%- include('footer'); %>
