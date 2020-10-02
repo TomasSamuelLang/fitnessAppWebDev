@@ -1,5 +1,5 @@
 <a class="nav-link<%= (typeof(title) != "undefined" && typeof(currentPageTitle) != "undefined" && title == currentPageTitle) ? " active" : ""%>"
-    href="<%= typeof(link) != "undefined" ? link : "" %>">
+    href="/<%= typeof(link) != "undefined" ? link : "" %>">
     <%= typeof(title) != "undefined" ? title : "No title" %>
     <% if (typeof(title) != "undefined" && typeof(currentPageTitle) != "undefined" && title == currentPageTitle) { %>
     <span class="sr-only">(current)</span>

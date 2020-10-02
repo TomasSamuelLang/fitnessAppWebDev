@@ -13,13 +13,40 @@ import workoutsRouter from './routes/workouts';
 import createWorkoutRouter from './routes/createWorkout';
 import createExerciseRouter from './routes/createExercise';
 import ejs from 'ejs';
-import mongoose from 'mongoose'
+import mongoose, { mongo } from 'mongoose'
 import { create } from 'domain';
 import passport from 'passport';
 import './passport-config';
 import bodyParser from 'body-parser';
+import session from 'express-session';
+const MongoStore = require('connect-mongo')(session);
+
+
 
 var app = express();
+
+//setup mongo connection and mongoose
+const uri = "mongodb+srv://administrator:secret2.@cluster0.9buds.gcp.mongodb.net/fitnessApp?retryWrites=true&w=majority";
+mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log("connected to mongo");
+  })
+  .catch((err: any) => {
+    console.error("problem connecting to mongo", err);
+  });
+
+app.use(session({
+  name: 'mysession.sid',
+  resave: true,
+  secret: 'secret',
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 360000,
+    httpOnly: false,
+    secure: false
+  },
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -47,7 +74,7 @@ If the user is not logined and it tries to access a page that it shouldn't it wi
 The pages that can be accessed without being logined are the ones defined by the app.use(location, router) statements above this function
 */
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-  if (app.locals.id == '') {
+  if (!req.isAuthenticated()) {
     res.redirect('/');
   } else {
     next();
@@ -59,16 +86,6 @@ app.use('/workout', workoutRouter);
 app.use('/workouts', workoutsRouter);
 app.use('/create-workout', createWorkoutRouter);
 app.use('/create-exercise', createExerciseRouter);
-
-//setup mongo connection and mongoose
-const uri = "mongodb+srv://administrator:secret2.@cluster0.9buds.gcp.mongodb.net/fitnessApp?retryWrites=true&w=majority";
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => {
-    console.log("connected to mongo");
-  })
-  .catch((err: any) => {
-    console.error("problem connecting to mongo", err);
-  });
 
 // catch 404 and forward to error handler
 app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {

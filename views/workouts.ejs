@@ -1,7 +1,7 @@
-<%- include('header'); %>
+<%- include('header', {user: user}); %>
 <section class="jumbotron text-center">
     <div class="container">
-        <h3>You are logged in as: <%- email -%></h3>
+        <h3>You are logged in as: <%= user.email %></h3>
         <p class="lead text-muted">Search for your workouts bellow</p>
         <div class=" d-flex justify-content-center">
             <form class="form-inline mt-2 mt-md-0" id="searchWorkouts">

@@ -37,7 +37,7 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <% if (id != '') { %>
+                    <% if (typeof(user) != "undefined" ? true : false) { %>
                     <li class="nav-item">
                         <%- include('header/nav-link', {currentPageTitle: title, link: "workouts", title: "Workouts"}) %>
                     </li>
