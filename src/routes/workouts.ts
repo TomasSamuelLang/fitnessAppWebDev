@@ -1,5 +1,4 @@
 import { Router, Request, Response, NextFunction } from 'express'
-import { readdirSync } from 'fs-extra';
 import { getWorkouts } from '../controllers/workout.controller';
 const router = Router();
 

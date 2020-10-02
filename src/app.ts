@@ -13,8 +13,7 @@ import workoutsRouter from './routes/workouts';
 import createWorkoutRouter from './routes/createWorkout';
 import createExerciseRouter from './routes/createExercise';
 import ejs from 'ejs';
-import mongoose, { mongo } from 'mongoose'
-import { create } from 'domain';
+import mongoose from 'mongoose'
 import passport from 'passport';
 import './passport-config';
 import bodyParser from 'body-parser';
