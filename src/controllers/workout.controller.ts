@@ -27,8 +27,8 @@ export async function getWorkoutById(workoutId: string) {
     }
 }
 
-export async function getWorkouts() {
-    const workouts = await Workout.find({ "userId": app.locals.id });
+export async function getWorkouts(id: String) {
+    const workouts = await Workout.find({ "userId": id });
     console.log({ workouts: workouts })
     return workouts;
 }

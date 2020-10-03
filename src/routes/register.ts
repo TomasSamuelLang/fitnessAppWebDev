@@ -4,7 +4,7 @@ import { findUserIfAlreadyExists } from '../controllers/user.controller';
 const router = Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.render('register', {title: "Register"});
+  res.render('register', {title: "Register", user: req.user});
 });
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
@@ -18,7 +18,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
     const result = await findUserIfAlreadyExists(req.body.registerEmail);
     if(result){
       console.log("Email taken");
-      res.render('register', {title: "Register"});
+      res.render('register', {title: "Register", user: req.user});
     }
     else{
       try{
@@ -27,7 +27,7 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       }
       catch(err) {
         console.log("saving to database failed");
-        res.render('register', {title: "Register"});
+        res.render('register', {title: "Register", user: req.user});
       }
     }
   }

@@ -4,7 +4,7 @@ import app from '../app';
 const router = Router();
 
 router.get('/', (req: Request, res: Response, next: NextFunction) => {
-  res.render('login', {title: "Login"});
+  res.render('login', {title: "Login", user: req.user});
 });
 
 router.post('/', async (req: Request, res: Response, next: NextFunction) => {
@@ -13,9 +13,6 @@ router.post('/', async (req: Request, res: Response, next: NextFunction) => {
       if (!user) { return res.redirect('/login'); }
       req.logIn(user, (err) => {
         if (err) { return res.redirect('/login'); }
-        app.locals.id = user._id;
-        app.locals.email = user.email;
-        console.log('ID: ' + app.locals.id);
         return res.redirect('/');
       });
     })(req, res, next);
